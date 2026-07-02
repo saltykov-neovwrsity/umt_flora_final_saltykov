@@ -97,6 +97,11 @@
               "schema": {
                 "$ref": "#/components/schemas/BouquetCreate"
               }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/BouquetCreate"
+              }
             }
           }
         },
@@ -179,6 +184,11 @@
           "required": true,
           "content": {
             "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BouquetUpdate"
+              }
+            },
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/BouquetUpdate"
               }
@@ -372,6 +382,11 @@
           "required": true,
           "content": {
             "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackCreate"
+              }
+            },
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/FeedbackCreate"
               }

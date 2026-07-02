@@ -77,12 +77,19 @@ CLOUDINARY_API_SECRET=ваш_api_secret
 
 ## REST API ендпоінти
 
+### Колекція букетів (bouquets)
 | Метод | Ендпоінт | Опис |
 | :--- | :--- | :--- |
 | **GET** | `/api/bouquets` | Отримати список усіх букетів (підтримує пагінацію `_page` та `_per_page`) |
 | **GET** | `/api/bouquets/:id` | Отримати деталі одного букета за ID |
-| **POST** | `/api/bouquets` | Створити новий букет (з валідацією Joi та автогенерацією Gravatar) |
-| **PUT** | `/api/bouquets/:id` | Оновити всі поля букета |
+| **POST** | `/api/bouquets` | Створити новий букет (підтримує `multipart/form-data` для прямого завантаження зображення у полі `photoURL`, Joi-валідацію та автогенерацію Gravatar) |
+| **PUT** | `/api/bouquets/:id` | Оновити всі поля букета (підтримує `multipart/form-data` для заміни файлу зображення) |
 | **PATCH** | `/api/bouquets/:id/favorite` | Оновити статус `favorite` (обране) |
-| **PATCH** | `/api/bouquets/:id/photo` | Завантажити нове фото букета на Cloudinary (`multipart/form-data`, поле `photoURL`) |
+| **PATCH** | `/api/bouquets/:id/photo` | Окремий ендпоінт для оновлення фото букета на Cloudinary (`multipart/form-data`, поле `photoURL`) |
 | **DELETE** | `/api/bouquets/:id` | Видалити букет |
+
+### Колекція відгуків (feedbacks)
+| Метод | Ендпоінт | Опис |
+| :--- | :--- | :--- |
+| **GET** | `/api/feedbacks` | Отримати список усіх відгуків з бази даних |
+| **POST** | `/api/feedbacks` | Створити новий відгук (з валідацією Joi) |

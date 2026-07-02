@@ -4,6 +4,7 @@ import path from "path";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
 import bouquetsRouter from "./routes/api/bouquets.js";
+import feedbacksRouter from "./routes/api/feedbacks.js";
 
 const app = express();
 
@@ -19,6 +20,9 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/bouquets", bouquetsRouter);
 app.use("/bouquets", bouquetsRouter);
 
+app.use("/api/feedbacks", feedbacksRouter);
+app.use("/feedbacks", feedbacksRouter);
+
 const getDbData = async () => {
   const dbJsonPath = path.resolve("..", "db.json");
   const raw = await fs.promises.readFile(dbJsonPath, "utf8");
@@ -29,15 +33,6 @@ app.get(["/api/bestsellers", "/bestsellers"], async (req, res, next) => {
   try {
     const data = await getDbData();
     res.json(data.bestsellers || []);
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.get(["/api/feedbacks", "/feedbacks"], async (req, res, next) => {
-  try {
-    const data = await getDbData();
-    res.json(data.feedbacks || []);
   } catch (error) {
     next(error);
   }

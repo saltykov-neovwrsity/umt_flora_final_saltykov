@@ -340,6 +340,56 @@
           }
         }
       }
+    },
+    "/api/feedbacks": {
+      "get": {
+        "summary": "Отримати всі відгуки",
+        "description": "Повертає список усіх відгуків з бази даних.",
+        "responses": {
+          "200": {
+            "description": "Успішна відповідь",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Feedback"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Додати новий відгук",
+        "description": "Створює новий відгук із вказаним автором та текстом.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Відгук успішно створено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feedback"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Помилка валідації вхідних даних"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -445,6 +495,48 @@
           "favorite": {
             "type": "boolean",
             "example": true
+          }
+        }
+      },
+      "Feedback": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "author": {
+            "type": "string",
+            "example": "Emma T."
+          },
+          "text": {
+            "type": "string",
+            "example": "Flora made my anniversary unforgettable!"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "FeedbackCreate": {
+        "type": "object",
+        "required": [
+          "author",
+          "text"
+        ],
+        "properties": {
+          "author": {
+            "type": "string",
+            "example": "Emma T."
+          },
+          "text": {
+            "type": "string",
+            "example": "Flora made my anniversary unforgettable!"
           }
         }
       }

@@ -18,6 +18,7 @@ router.get("/:id", isValidId, ctrlWrapper(bouquetsController.getById));
 
 router.post(
   "/",
+  upload.single("photoURL"),
   validateBody(createBouquetSchema),
   ctrlWrapper(bouquetsController.create)
 );
@@ -25,6 +26,7 @@ router.post(
 router.put(
   "/:id",
   isValidId,
+  upload.single("photoURL"),
   validateBody(updateBouquetSchema),
   ctrlWrapper(bouquetsController.update)
 );

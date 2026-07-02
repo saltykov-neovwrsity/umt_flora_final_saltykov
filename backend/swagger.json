@@ -102,6 +102,39 @@
               "schema": {
                 "$ref": "#/components/schemas/BouquetCreate"
               }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "description",
+                  "price"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Peach Meadow"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "A soft and radiant arrangement of peach and blush roses"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 55
+                  },
+                  "photoURL": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Файл зображення букета для завантаження"
+                  },
+                  "favorite": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
             }
           }
         },
@@ -191,6 +224,33 @@
             "application/x-www-form-urlencoded": {
               "schema": {
                 "$ref": "#/components/schemas/BouquetUpdate"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Peach Meadow Updated"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "A soft and radiant arrangement of peach and blush roses"
+                  },
+                  "price": {
+                    "type": "number",
+                    "example": 60
+                  },
+                  "photoURL": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Новий файл зображення букета для завантаження"
+                  },
+                  "favorite": {
+                    "type": "boolean"
+                  }
+                }
               }
             }
           }

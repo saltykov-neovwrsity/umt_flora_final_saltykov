@@ -2,6 +2,13 @@
 
 Flora — це full-stack веб-застосунок для перегляду та замовлення квітів. Проєкт реалізовано у форматі монорепозиторію, де клієнтська частина (фронтенд) розміщена у корені проєкту, а серверна частина (бекенд) — у підпапці backend/.
 
+## Посилання на розгорнутий проєкт
+
+- **Сайт (GitHub Pages):** https://saltykov-neovwrsity.github.io/umt_flora_final_saltykov/
+- **Документація API (Swagger UI):** https://flora-backend-ordu.onrender.com/api-docs/
+- **Репозиторій GitHub:** https://github.com/saltykov-neovwrsity/umt_flora_final_saltykov
+
+
 ---
 
 ## Структура проєкту та архітектурні зв'язки

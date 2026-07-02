@@ -65,13 +65,13 @@ CLOUDINARY_API_SECRET=ваш_api_secret
    - `CLOUDINARY_API_KEY` — ваш API Key від Cloudinary.
    - `CLOUDINARY_API_SECRET` — ваш API Secret від Cloudinary.
    - `NODE_ENV` — `production`
-6. Натисніть **Deploy Web Service**. Після завершення білду ваш бекенд буде доступний за адресою `https://your-app.onrender.com`.
+6. Натисніть **Deploy Web Service**. Після завершення білду ваш бекенд буде доступний за адресою https://flora-backend-ordu.onrender.com.
 
 ---
 
 ## Swagger Документація API
 Після запуску сервера інтерактивна документація Swagger доступна за адресою:
-`http://localhost:3001/api-docs` (локально) або `https://your-app.onrender.com/api-docs` (на продакшені).
+`http://localhost:3001/api-docs` (локально) або `https://flora-backend-ordu.onrender.com/api-docs` (на продакшені).
 
 ---
 

@@ -1,0 +1,453 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Flora API",
+    "description": "REST API для колекції букетів проєкту Flora",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Local Development Server"
+    }
+  ],
+  "paths": {
+    "/api/bouquets": {
+      "get": {
+        "summary": "Отримати всі букети",
+        "description": "Повертає список усіх букетів. Підтримує пагінацію за допомогою параметрів `_page` та `_per_page`.",
+        "parameters": [
+          {
+            "name": "_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Номер сторінки"
+          },
+          {
+            "name": "_per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 4
+            },
+            "description": "Кількість елементів на сторінці"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успішна відповідь",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Bouquet"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Bouquet"
+                          }
+                        },
+                        "next": {
+                          "type": "integer",
+                          "nullable": true
+                        },
+                        "prev": {
+                          "type": "integer",
+                          "nullable": true
+                        },
+                        "pages": {
+                          "type": "integer"
+                        },
+                        "items": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Створити новий букет",
+        "description": "Створює новий букет із вказаними полями. Якщо `photoURL` не вказано, воно генерується автоматично через Gravatar.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BouquetCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Букет успішно створено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bouquet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Помилка валідації вхідних даних"
+          }
+        }
+      }
+    },
+    "/api/bouquets/{id}": {
+      "get": {
+        "summary": "Отримати букет за ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Унікальний ідентифікатор букета"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Букет знайдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bouquet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некоректний ID"
+          },
+          "404": {
+            "description": "Букет не знайдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Оновити букет повністю за ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BouquetUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Букет оновлено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bouquet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Помилка валідації або порожній запит"
+          },
+          "404": {
+            "description": "Букет не знайдено"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Видалити букет за ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Букет успішно видалено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Delete success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некоректний ID"
+          },
+          "404": {
+            "description": "Букет не знайдено"
+          }
+        }
+      }
+    },
+    "/api/bouquets/{id}/favorite": {
+      "patch": {
+        "summary": "Оновити статус обраного (favorite) для букета",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BouquetFavoriteUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Статус favorite оновлено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bouquet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некоректне значення favorite"
+          },
+          "404": {
+            "description": "Букет не знайдено"
+          }
+        }
+      }
+    },
+    "/api/bouquets/{id}/photo": {
+      "patch": {
+        "summary": "Оновити фотографію букета",
+        "description": "Приймає Multipart Form Data з полем `photoURL` та завантажує фото.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "photoURL": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Зображення букета для завантаження"
+                  }
+                },
+                "required": [
+                  "photoURL"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Зображення оновлено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "photoURL": {
+                      "type": "string",
+                      "example": "/photos/1_1720000000000_rose.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Файл не надано або некоректний тип файлу"
+          },
+          "404": {
+            "description": "Букет не знайдено"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Bouquet": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "Peach Meadow"
+          },
+          "description": {
+            "type": "string",
+            "example": "A soft and radiant arrangement of peach and blush roses"
+          },
+          "price": {
+            "type": "number",
+            "example": 55
+          },
+          "photoURL": {
+            "type": "string",
+            "example": "https://www.gravatar.com/avatar/somehash?d=identicon"
+          },
+          "favorite": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BouquetCreate": {
+        "type": "object",
+        "required": [
+          "title",
+          "description",
+          "price"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Peach Meadow"
+          },
+          "description": {
+            "type": "string",
+            "example": "A soft and radiant arrangement of peach and blush roses"
+          },
+          "price": {
+            "type": "number",
+            "example": 55
+          },
+          "photoURL": {
+            "type": "string",
+            "example": "https://www.gravatar.com/avatar/somehash?d=identicon"
+          },
+          "favorite": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "BouquetUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Peach Meadow Updated"
+          },
+          "description": {
+            "type": "string",
+            "example": "A soft and radiant arrangement of peach and blush roses"
+          },
+          "price": {
+            "type": "number",
+            "example": 60
+          },
+          "photoURL": {
+            "type": "string",
+            "example": "https://www.gravatar.com/avatar/somehash?d=identicon"
+          },
+          "favorite": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "BouquetFavoriteUpdate": {
+        "type": "object",
+        "required": [
+          "favorite"
+        ],
+        "properties": {
+          "favorite": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      }
+    }
+  }
+}

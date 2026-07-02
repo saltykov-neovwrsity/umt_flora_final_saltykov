@@ -1,0 +1,17 @@
+:root {
+  --font-primary: 'Roboto', sans-serif;
+  --font-heading: 'Hanuman', serif;
+
+  --size-hero: 36px;
+  --size-h2: 48px;
+  --size-h3: 40px;
+  --size-text: 18px;
+
+  --weight-hero: 400;
+  --weight-h2: 400;
+  --weight-h3: 400;
+  --weight-text: 400;
+
+  --lh-heading: 1.2;
+  --lh-text: 1.5;
+}

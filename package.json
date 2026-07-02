@@ -1,0 +1,33 @@
+{
+  "name": "umt-markup-practice-saltykov",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite preview",
+    "preview:pages": "GITHUB_ACTIONS=true GITHUB_REPOSITORY=saltykov-neovwrsity/umt_flora_final_saltykov VITE_API_MODE=static sh -c 'vite build && vite preview'",
+    "build": "vite build",
+    "api": "json-server db.json --port 3001"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:saltykov-neovwrsity/umt_flora_final_saltykov.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "axios": "^1.16.0",
+    "dotenv": "^17.4.2",
+    "json-server": "^1.0.0-beta.15",
+    "pg": "^8.21.0",
+    "swiper": "^12.1.4",
+    "vite": "^8.0.12"
+  },
+  "devDependencies": {
+    "prisma": "^7.8.0"
+  }
+}

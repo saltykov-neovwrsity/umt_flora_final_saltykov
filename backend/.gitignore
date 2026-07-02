@@ -1,0 +1,15 @@
+# Залежності
+node_modules/
+
+# Локальні змінні середовища
+.env
+
+# Локальна база даних SQLite
+*.sqlite
+dev.sqlite
+
+# Тимчасові та завантажені фотографії (крім файлів заглушок)
+temp/*
+!temp/.gitkeep
+public/photos/*
+!public/photos/.gitkeep

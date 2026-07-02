@@ -26,7 +26,6 @@ if (DATABASE_URL) {
     logging: false
   });
 } else {
-  // Використовуємо SQLite для локального тестування, якщо не вказано хмарну БД
   console.log("No DATABASE_URL provided. Falling back to local SQLite database...");
   sequelize = new Sequelize({
     dialect: "sqlite",

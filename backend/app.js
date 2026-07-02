@@ -7,7 +7,6 @@ import bouquetsRouter from "./routes/api/bouquets.js";
 
 const app = express();
 
-// Зчитування swagger.json в ES Modules
 const swaggerPath = path.resolve("swagger.json");
 const swaggerDocument = JSON.parse(fs.readFileSync(swaggerPath, "utf8"));
 
@@ -15,14 +14,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-// Підключення Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// Підключення маршрутів
 app.use("/api/bouquets", bouquetsRouter);
-app.use("/bouquets", bouquetsRouter); // для локальної розробки та проксі
+app.use("/bouquets", bouquetsRouter);
 
-// Додаткові маршрути для сумісності з фронтендом (bestsellers, feedbacks, db.json)
 const getDbData = async () => {
   const dbJsonPath = path.resolve("..", "db.json");
   const raw = await fs.promises.readFile(dbJsonPath, "utf8");
@@ -58,12 +54,10 @@ app.get(["/api/db.json", "/db.json"], async (req, res, next) => {
   }
 });
 
-// 404 обробник
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
-// Централізований обробник помилок
 app.use((err, req, res, next) => {
   const { status = 500, message = "Server error" } = err;
   res.status(status).json({ message });

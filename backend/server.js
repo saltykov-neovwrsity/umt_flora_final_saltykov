@@ -8,14 +8,11 @@ const PORT = process.env.PORT || 3001;
 
 async function startServer() {
   try {
-    // Спроба підключення до бази даних
     await sequelize.authenticate();
     console.log("Database connection successful");
 
-    // Синхронізація моделей з базою даних
     await sequelize.sync();
 
-    // Автоматичне заповнення бази даних, якщо вона порожня
     const count = await Bouquet.count();
     if (count === 0) {
       console.log("Database is empty. Seeding from db.json...");
@@ -39,7 +36,6 @@ async function startServer() {
       }
     }
 
-    // Запуск сервера
     app.listen(PORT, () => {
       console.log(`Server is running on port: ${PORT}`);
     });

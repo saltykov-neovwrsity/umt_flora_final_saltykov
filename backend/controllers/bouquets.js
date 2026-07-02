@@ -69,7 +69,6 @@ const updatePhoto = async (req, res) => {
   const { path: tempUpload } = req.file;
 
   try {
-    // Завантажуємо зображення на Cloudinary
     const cloudinaryResponse = await cloudinary.uploader.upload(tempUpload, {
       folder: "flora",
       public_id: `bouquet_${id}_${Date.now()}`
@@ -77,7 +76,6 @@ const updatePhoto = async (req, res) => {
 
     const photoURL = cloudinaryResponse.secure_url;
 
-    // Оновлюємо букет у базі даних
     const result = await bouquetsService.update(id, { photoURL });
     if (!result) {
       throw HttpError(404, "Not found");
@@ -87,7 +85,6 @@ const updatePhoto = async (req, res) => {
   } catch (error) {
     throw HttpError(500, `Cloudinary upload failed: ${error.message}`);
   } finally {
-    // Завжди видаляємо тимчасовий файл з папки temp
     try {
       await fs.unlink(tempUpload);
     } catch (unlinkError) {
